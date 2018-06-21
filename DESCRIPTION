@@ -1,0 +1,11 @@
+Package: REQAO
+Type: Package
+Title: Working with EQAO School and Student Data files
+Version: 0.1.0
+Author: Chris Conley
+Maintainer: <Chris.Conley@ddsb.ca>
+Description: Load School and Student Data Files
+License: MIT
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
