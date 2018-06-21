@@ -2,7 +2,7 @@
 % Please edit documentation in R/REQAO.R
 \name{SchoolLoad}
 \alias{SchoolLoad}
-\title{Function to Load EQAO School Files  ------------------------------------}
+\title{df <- SchoolLoad(3, YYYY, 66060, "DDSB", datadir)}
 \usage{
 SchoolLoad(grade, year, bident, board, datadir)
 }

@@ -2,18 +2,12 @@
 % Please edit documentation in R/REQAO.R
 \name{StudentLoad}
 \alias{StudentLoad}
-\title{Examples
-test3 <- SchoolLoad(3, 2017, 66060, "DDSB")
-test6 <- SchoolLoad(6, 2017, 66060, "DDSB")
-test9 <- SchoolLoad(9, 2017, 66060, "DDSB")
-test10 <- SchoolLoad(10, 2017, 66060, "DDSB")
-testfail <- SchoolLoad(8, 2017, 6606, "DDSB")
-Function to Load Student Files  ------------------------------------}
+\title{df <- StudentLoad(3, YYYY, bident, datadir)}
 \usage{
 StudentLoad(grade, year, bident, datadir)
 }
 \description{
-Use:   df <- StudentLoad(3, 2017, 66060, datadir)
+Use:   df <- StudentLoad(3, 2017, bident, datadir)
 grades = 3, 6, 9, 10
 }
 \details{
