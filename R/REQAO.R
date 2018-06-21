@@ -271,11 +271,3 @@ StudentLoad <- function(grade, year, bident, datadir){
       },"Unable to locate files, check the grade, bident, or file name.")))
   }
 
-
-#Examples
-#G3ISD <- StudentLoad(3, 2017, 66060,"v")
-#G6ISD <- StudentLoad(6, 2017, 66060, "v")
-#G9ISD <- StudentLoad(9, 2017, 66060, "v")
-#G10ISD <- StudentLoad(10, 2017, 66060, "v")
-
-
