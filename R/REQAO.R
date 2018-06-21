@@ -1,4 +1,4 @@
-#' Function to Load EQAO School Files  ------------------------------------
+#'df <- SchoolLoad(3, YYYY, 66060, "DDSB", datadir)
 #'
 #'Use:   df <- SchoolLoad(3, 2017, 66060, "DDSB", datadir)
 #'grades = 3, 6, 9, 10
@@ -83,17 +83,11 @@ SchoolLoad <- function(grade, year,bident,board, datadir) {
 }
 
 
-#'Examples
-#'test3 <- SchoolLoad(3, 2017, 66060, "DDSB")
-#'test6 <- SchoolLoad(6, 2017, 66060, "DDSB")
-#'test9 <- SchoolLoad(9, 2017, 66060, "DDSB")
-#'test10 <- SchoolLoad(10, 2017, 66060, "DDSB")
-#'testfail <- SchoolLoad(8, 2017, 6606, "DDSB")
 
 
-#' Function to Load Student Files  ------------------------------------
+#'df <- StudentLoad(3, YYYY, bident, datadir)
 #'
-#'Use:   df <- StudentLoad(3, 2017, 66060, datadir)
+#'Use:   df <- StudentLoad(3, 2017, bident, datadir)
 #'grades = 3, 6, 9, 10
 #'
 #' - identify the grade, year and board id: used to construct EQAO file names
