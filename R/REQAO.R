@@ -273,16 +273,22 @@ StudentLoad <- function(grade, year, bident, datadir){
 
 
 
-#'AchieveLabel(df$var, grade, type) (char/num) - Apply Labels to Achievement Levels EQAO 3 6 9 and choose type of label
+#'AchieveLabel(df, grade, type) (char/num) - Apply Labels to Achievement Levels EQAO 3 6 9 and choose type of label
 #'
-#'Use:   AchLabel(df$var, type)
+#'Use:   AchLabel(df, grade, type)
+#'
+#'grade: 3 (recodes ROverallLevel, WOVerallLevel and MOverallLevel)
+#'grade: 6 (recodes R...W...MOverallLevel, Prior_G3_R...Prior_G3_W...Prior_G3_MOverallLevel)
+#'grade: 9 (recodes OverallOutcomeLevel, Prior_G6_R...W...M, Prior_G3_R...W...MOverallLevel)
+#'grade: 10 (recodes OSSLTOutcome, Prior G6_R...W, Prior_G3_R...WOverallLevel)
+#'
 #'type: char = character labels (Level 1, Level 2, Witheld etc.)
 #'type: num = numeric (NE1 = 0, all non-levels are NA - like fully participating)
 #'
 #' - pass a variable and recode with labels for achievement levels
 
 AchieveLabel <- function(x, grade, type){
-  ifelse(grade %in% c(3,6), {
+  ifelse(grade ==3, {
     ifelse(type == "char", {
       x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(ROverallLevel,WOverallLevel, MOverallLevel),
                             .funs= dplyr::funs(dplyr::recode(.,`1` = "Level 1",
@@ -317,6 +323,43 @@ AchieveLabel <- function(x, grade, type){
                                                  )
                               )
         }, "Check the type of recoding selected")
+      )
+    },
+    ifelse(grade == 6, {
+      ifelse(type == "char", {
+        x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(ROverallLevel,WOverallLevel, MOverallLevel, Prior_G3_ROverallLevel, Prior_G3_WOverallLevel, Prior_G3_MOverallLevel),
+                              .funs= dplyr::funs(dplyr::recode(.,`1` = "Level 1",
+                                                               `2` = "Level 2",
+                                                               `3` = "Level 3",
+                                                               `4` = "Level 4",
+                                                               `0` = "NE1",
+                                                               `W` = "Witheld",
+                                                               `R` = "Witheld",
+                                                               `P` = "Pending",
+                                                               `X` = "Exempt",
+                                                               `Q` = "Not Required",
+                                                               `-1` = "No Data",
+                                                               `B` = "No Data")
+                              )
+        )
+      },
+      ifelse(type == "num", {
+        x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(ROverallLevel,WOverallLevel, MOverallLevel, Prior_G3_ROverallLevel, Prior_G3_WOverallLevel, Prior_G3_MOverallLevel),
+                              .funs= dplyr::funs(dplyr::recode(.,`1` = 1,
+                                                               `2` = 2,
+                                                               `3` = 3,
+                                                               `4` = 4,
+                                                               `0` = 0,
+                                                               `W` = as.numeric(NA),
+                                                               `R` = as.numeric(NA),
+                                                               `P` = as.numeric(NA),
+                                                               `X` = as.numeric(NA),
+                                                               `Q` = as.numeric(NA),
+                                                               `-1` = as.numeric(NA),
+                                                               `B` = as.numeric(NA))
+                              )
+        )
+      }, "Check the type of recoding selected")
       )
     },
     ifelse(grade == 9 , {
@@ -359,7 +402,7 @@ AchieveLabel <- function(x, grade, type){
           }, "Check the type of recoding selected"))},
       ifelse(grade == 10, {
         ifelse(type == "char", {
-          x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(Prior_G6_ROverallLevel, Prior_G6_WOverallLevel, Prior_G3_ROverallLevel, Prior_G3WOVerallLevel),
+          x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(Prior_G6_ROverallLevel, Prior_G6_WOverallLevel, Prior_G3_ROverallLevel, Prior_G3_WOverallLevel),
                                 .funs= dplyr::funs(dplyr::recode(.,`1` = "Level 1",
                                                                  `2` = "Level 2",
                                                                  `3` = "Level 3",
@@ -374,7 +417,6 @@ AchieveLabel <- function(x, grade, type){
                                                                  `B` = "No Data")
                                                    )
                                 )
-
           x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(OSSLTOutcome),
                               .funs= dplyr::funs(dplyr::recode(.,`0` = "Pending",
                                                                `1` = "Successful",
@@ -388,7 +430,7 @@ AchieveLabel <- function(x, grade, type){
                               )
         },
         ifelse(type == "num", {
-          x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(OverallOutcomeLevel),
+          x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(OSSLTOutcome),
                                 .funs= dplyr::funs(dplyr::recode(.,`0` = as.numeric(NA),
                                                                  `1` = 1,
                                                                  `2` = 0,
@@ -401,11 +443,21 @@ AchieveLabel <- function(x, grade, type){
                                 )
           }, "Check the type of recoding selected")
         )},"Check the grade selected")
+      )
     )
-  )
-
+    )
   return(x)
-}
+  }
+
+#Testing
+test <- StudentLoad(10, 2017, 66060, "v")
+test2 <- AchieveLabel(test, 10, "char")
+table(test2$OSSLTOutcome)
+
+
+#test <- StudentLoad(6, 2017, 66060, "v")
+#test <- StudentLoad(9, 2017, 66060, "v")
+#test <- StudentLoad(10, 2017, 66060, "v")
 
 
 #ORIGINAL DEVELOPMENT as backup
