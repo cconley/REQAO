@@ -453,12 +453,9 @@ AchieveLabel <- function(x, grade, type){
 # test <- StudentLoad(10, 2017, 66060, "v")
 # test2 <- AchieveLabel(test, 10, "char")
 # table(test2$OSSLTOutcome)
-
-
 #test <- StudentLoad(6, 2017, 66060, "v")
 #test <- StudentLoad(9, 2017, 66060, "v")
 #test <- StudentLoad(10, 2017, 66060, "v")
-
 
 #ORIGINAL DEVELOPMENT as backup
 # AchieveLabel <- function(x, type){
