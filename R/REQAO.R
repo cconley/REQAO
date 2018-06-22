@@ -22,10 +22,12 @@ SchoolLoad <- function(grade, year,bident,board, datadir) {
     OSSLT.2 <- readr::read_csv(paste0(datadir.txt,"G10_", year,"_FTE_B01",bident,"_2.csv"))
     OSSLT.2$SchoolMident[is.na(OSSLT.2$SchoolMident)] <- bident
     OSSLT.2$SchoolName[is.na(OSSLT.2$SchoolName)] <- board
+    OSSLT.2 <- dplyr::select(OSSLT.2, -OrgType, -Lang, -ApplySuppression, -BoardMident, -BoardName, -SchoolName, -Suppressed, -FundingType, -Eligibility)
 
     OSSLT.3 <- readr::read_csv(paste0(datadir.txt,"G10_", year, "_FTE_B01",bident,"_3.csv"))
     OSSLT.3$SchoolMident[is.na(OSSLT.3$SchoolMident)] <- bident
     OSSLT.3$SchoolName[is.na(OSSLT.3$SchoolName)] <- board
+    OSSLT.3 <- dplyr::select(OSSLT.3, -OrgType, -Lang, -ApplySuppression, -BoardMident, -BoardName, -SchoolName, -Suppressed, -FundingType, -Eligibility)
 
     x <- merge(OSSLT.1, OSSLT.2, by = "SchoolMident")
     x <- merge(x, OSSLT.3, by = "SchoolMident")
