@@ -271,3 +271,179 @@ StudentLoad <- function(grade, year, bident, datadir){
       },"Unable to locate files, check the grade, bident, or file name.")))
   }
 
+
+
+#'AchieveLabel(df$var, grade, type) (char/num) - Apply Labels to Achievement Levels EQAO 3 6 9 and choose type of label
+#'
+#'Use:   AchLabel(df$var, type)
+#'type: char = character labels (Level 1, Level 2, Witheld etc.)
+#'type: num = numeric (NE1 = 0, all non-levels are NA - like fully participating)
+#'
+#' - pass a variable and recode with labels for achievement levels
+
+AchieveLabel <- function(x, grade, type){
+  ifelse(grade %in% c(3,6), {
+    ifelse(type == "char", {
+      x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(ROverallLevel,WOverallLevel, MOverallLevel),
+                            .funs= dplyr::funs(dplyr::recode(.,`1` = "Level 1",
+                                                             `2` = "Level 2",
+                                                             `3` = "Level 3",
+                                                             `4` = "Level 4",
+                                                             `0` = "NE1",
+                                                             `W` = "Witheld",
+                                                             `R` = "Witheld",
+                                                             `P` = "Pending",
+                                                             `X` = "Exempt",
+                                                             `Q` = "Not Required",
+                                                             `-1` = "No Data",
+                                                             `B` = "No Data")
+                                               )
+                            )
+      },
+      ifelse(type == "num", {
+        x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(ROverallLevel,WOverallLevel, MOverallLevel),
+                              .funs= dplyr::funs(dplyr::recode(.,`1` = 1,
+                                                               `2` = 2,
+                                                               `3` = 3,
+                                                               `4` = 4,
+                                                               `0` = 0,
+                                                               `W` = as.numeric(NA),
+                                                               `R` = as.numeric(NA),
+                                                               `P` = as.numeric(NA),
+                                                               `X` = as.numeric(NA),
+                                                               `Q` = as.numeric(NA),
+                                                               `-1` = as.numeric(NA),
+                                                               `B` = as.numeric(NA))
+                                                 )
+                              )
+        }, "Check the type of recoding selected")
+      )
+    },
+    ifelse(grade == 9 , {
+      ifelse(type == "char", {
+        x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(OverallOutcomeLevel, Prior_G3_ROverallLevel, Prior_G3_WOverallLevel, Prior_G3_MOverallLevel, Prior_G6_ROverallLevel, Prior_G6_WOverallLevel, Prior_G6_MOverallLevel),
+                              .funs= dplyr::funs(dplyr::recode(.,`1` = "Level 1",
+                                                               `2` = "Level 2",
+                                                               `3` = "Level 3",
+                                                               `4` = "Level 4",
+                                                               `0` = "NE1",
+                                                               `W` = "Witheld",
+                                                               `R` = "Witheld",
+                                                               `P` = "Pending",
+                                                               `X` = "Exempt",
+                                                               `V` = "Vulgar",
+                                                               `Q` = "Not Required",
+                                                               `-1` = "No Data",
+                                                               `B` = "No Data")
+                                                 )
+                              )
+        },
+        ifelse(type == "num", {
+          x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(OverallOutcomeLevel, Prior_G3_ROverallLevel, Prior_G3_WOverallLevel, Prior_G3_MOverallLevel, Prior_G6_ROverallLevel, Prior_G6_WOverallLevel, Prior_G6_MOverallLevel),
+                                .funs= dplyr::funs(dplyr::recode(.,`1` = 1,
+                                                                 `2` = 2,
+                                                                 `3` = 3,
+                                                                 `4` = 4,
+                                                                 `0` = 0,
+                                                                 `W` = as.numeric(NA),
+                                                                 `R` = as.numeric(NA),
+                                                                 `P` = as.numeric(NA),
+                                                                 `X` = as.numeric(NA),
+                                                                 `V` = as.numeric(NA),
+                                                                 `Q` = as.numeric(NA),
+                                                                 `-1` = as.numeric(NA),
+                                                                 `B` = as.numeric(NA)
+                                                                 )
+                                                   )
+                                )
+          }, "Check the type of recoding selected"))},
+      ifelse(grade == 10, {
+        ifelse(type == "char", {
+          x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(Prior_G6_ROverallLevel, Prior_G6_WOverallLevel, Prior_G3_ROverallLevel, Prior_G3WOVerallLevel),
+                                .funs= dplyr::funs(dplyr::recode(.,`1` = "Level 1",
+                                                                 `2` = "Level 2",
+                                                                 `3` = "Level 3",
+                                                                 `4` = "Level 4",
+                                                                 `0` = "NE1",
+                                                                 `W` = "Witheld",
+                                                                 `R` = "Witheld",
+                                                                 `P` = "Pending",
+                                                                 `X` = "Exempt",
+                                                                 `Q` = "Not Required",
+                                                                 `-1` = "No Data",
+                                                                 `B` = "No Data")
+                                                   )
+                                )
+
+          x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(OSSLTOutcome),
+                              .funs= dplyr::funs(dplyr::recode(.,`0` = "Pending",
+                                                               `1` = "Successful",
+                                                               `2` = "Unsuccessful",
+                                                               `3` = "Absent",
+                                                               `4` = "OSSLC",
+                                                               `5` = "Deferred",
+                                                               `6` = "Exempt",
+                                                               `10` = "Witheld")
+                                                 )
+                              )
+        },
+        ifelse(type == "num", {
+          x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(OverallOutcomeLevel),
+                                .funs= dplyr::funs(dplyr::recode(.,`0` = as.numeric(NA),
+                                                                 `1` = 1,
+                                                                 `2` = 0,
+                                                                 `3` = as.numeric(NA),
+                                                                 `4` = 1,
+                                                                 `5` = as.numeric(NA),
+                                                                 `6` = as.numeric(NA),
+                                                                 `10` = as.numeric(NA))
+                                                   )
+                                )
+          }, "Check the type of recoding selected")
+        )},"Check the grade selected")
+    )
+  )
+
+  return(x)
+}
+
+
+#ORIGINAL DEVELOPMENT as backup
+# AchieveLabel <- function(x, type){
+#   ifelse(type == "char", {
+#     x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(ROverallLevel,WOverallLevel, MOverallLevel),
+#                           .funs= dplyr::funs(dplyr::recode(.,`1` = "Level 1",
+#                                                            `2` = "Level 2",
+#                                                            `3` = "Level 3",
+#                                                            `4` = "Level 4",
+#                                                            `0` = "NE1",
+#                                                            `W` = "Witheld",
+#                                                            `R` = "Witheld",
+#                                                            `P` = "Pending",
+#                                                            `X` = "Exempt",
+#                                                            `Q` = "Not Required",
+#                                                            `-1` = "No Data",
+#                                                            `B` = "No Data")))
+#   },
+#   ifelse(type == "num", {
+#     x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(ROverallLevel,WOverallLevel, MOverallLevel),
+#                           .funs= dplyr::funs(dplyr::recode(.,`1` = 1,
+#                                                            `2` = 2,
+#                                                            `3` = 3,
+#                                                            `4` = 4,
+#                                                            `0` = 0,
+#                                                            `W` = as.numeric(NA),
+#                                                            `R` = as.numeric(NA),
+#                                                            `P` = as.numeric(NA),
+#                                                            `X` = as.numeric(NA),
+#                                                            `Q` = as.numeric(NA),
+#                                                            `-1` = as.numeric(NA),
+#                                                            `B` = as.numeric(NA)
+#                           )
+#                           )
+#     )
+#   }, "Choose char or num recoding types")
+#   )
+#   return(x)
+# }
+#
