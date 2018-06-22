@@ -448,3 +448,51 @@ AchieveLabel <- function(x, grade, type){
     )
   return(x)
   }
+
+#Testing
+# test <- StudentLoad(10, 2017, 66060, "v")
+# test2 <- AchieveLabel(test, 10, "char")
+# table(test2$OSSLTOutcome)
+#test <- StudentLoad(6, 2017, 66060, "v")
+#test <- StudentLoad(9, 2017, 66060, "v")
+#test <- StudentLoad(10, 2017, 66060, "v")
+
+#ORIGINAL DEVELOPMENT as backup
+# AchieveLabel <- function(x, type){
+#   ifelse(type == "char", {
+#     x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(ROverallLevel,WOverallLevel, MOverallLevel),
+#                           .funs= dplyr::funs(dplyr::recode(.,`1` = "Level 1",
+#                                                            `2` = "Level 2",
+#                                                            `3` = "Level 3",
+#                                                            `4` = "Level 4",
+#                                                            `0` = "NE1",
+#                                                            `W` = "Witheld",
+#                                                            `R` = "Witheld",
+#                                                            `P` = "Pending",
+#                                                            `X` = "Exempt",
+#                                                            `Q` = "Not Required",
+#                                                            `-1` = "No Data",
+#                                                            `B` = "No Data")))
+#   },
+#   ifelse(type == "num", {
+#     x <- dplyr::mutate_at(.tbl=x, .vars= dplyr::vars(ROverallLevel,WOverallLevel, MOverallLevel),
+#                           .funs= dplyr::funs(dplyr::recode(.,`1` = 1,
+#                                                            `2` = 2,
+#                                                            `3` = 3,
+#                                                            `4` = 4,
+#                                                            `0` = 0,
+#                                                            `W` = as.numeric(NA),
+#                                                            `R` = as.numeric(NA),
+#                                                            `P` = as.numeric(NA),
+#                                                            `X` = as.numeric(NA),
+#                                                            `Q` = as.numeric(NA),
+#                                                            `-1` = as.numeric(NA),
+#                                                            `B` = as.numeric(NA)
+#                           )
+#                           )
+#     )
+#   }, "Choose char or num recoding types")
+#   )
+#   return(x)
+# }
+#
