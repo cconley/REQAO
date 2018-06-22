@@ -42,10 +42,12 @@ SchoolLoad <- function(grade, year,bident,board, datadir) {
       G9.2 <- readr::read_csv(paste0(datadir.txt,"G9_",year,"_B01",bident,"_2.csv"))
       G9.2$SchoolMident[is.na(G9.2$SchoolMident)] <- bident
       G9.2$SchoolName[is.na(G9.2$SchoolName)] <- board
+      G9.2 <- dplyr::select(G9.2, -OrgType, -Language, -ApplySuppression, -BoardMident, -BoardName, -SchoolName, -Suppressed, -FundingType)
 
       G9.3 <- readr::read_csv(paste0(datadir.txt,"G9_",year,"_B01",bident,"_3.csv"))
       G9.3$SchoolMident[is.na(G9.3$SchoolMident)] <- bident
       G9.3$SchoolName[is.na(G9.3$SchoolName)] <- board
+      G9.3 <- dplyr::select(G9.3, -OrgType, -Language, -ApplySuppression, -BoardMident, -BoardName, -SchoolName, -Suppressed, -FundingType)
 
       x <- merge(G9.1, G9.2, by = "SchoolMident")
       x <- merge(x, G9.3, by = "SchoolMident")
@@ -62,14 +64,17 @@ SchoolLoad <- function(grade, year,bident,board, datadir) {
         x.2 <- readr::read_csv(paste0(datadir.txt,"G",grade,"_",year,"_B01",bident,"_2.csv"))
         x.2$SchoolMident[is.na(x.2$SchoolMident)] <- bident
         x.2$SchoolName[is.na(x.2$SchoolName)] <- board
+        x.2 <- dplyr::select(x.2, -OrgType, -Language, -ApplySuppression, -BoardMident, -BoardName, -SchoolName, -Suppressed, -FundingType)
 
         x.3 <- readr::read_csv(paste0(datadir.txt,"G",grade,"_",year,"_B01",bident,"_3.csv"))
         x.3$SchoolMident[is.na(x.3$SchoolMident)] <- bident
         x.3$SchoolName[is.na(x.3$SchoolName)] <- board
+        x.3 <- dplyr::select(x.3, -OrgType, -Language, -ApplySuppression, -BoardMident, -BoardName, -SchoolName, -Suppressed, -FundingType)
 
         x.4 <- readr::read_csv(paste0(datadir.txt,"G",grade,"_",year,"_B01",bident,"_4.csv"))
         x.4$SchoolMident[is.na(x.4$SchoolMident)] <- bident
         x.4$SchoolName[is.na(x.4$SchoolName)] <- board
+        x.4 <- dplyr::select(x.4, -OrgType, -Language, -ApplySuppression, -BoardMident, -BoardName, -SchoolName, -Suppressed, -FundingType)
 
         x <- merge(x.1, x.2, by = "SchoolMident")
         x <- merge(x, x.3, by = "SchoolMident")
@@ -449,4 +454,3 @@ AchieveLabel <- function(x, grade, type){
   return(x)
   }
 
-#Test removed
