@@ -318,6 +318,29 @@ AchieveLabel <- function(x, grade, type){
                                                                `B` = as.numeric(NA))
                               )
         )
+        x$change_g63_read <- ifelse(!is.na(x$ROverallLevel) & !is.na(x$Prior_G3_ROverallLevel),
+                    x$ROverallLevel - x$Prior_G3_ROverallLevel, NA)
+        x$change_g63_write <- ifelse(!is.na(x$WOverallLevel) & !is.na(x$Prior_G3_WOverallLevel),
+                                    x$WOverallLevel - x$Prior_G3_WOverallLevel, NA)
+        x$change_g63_math <- ifelse(!is.na(x$MOverallLevel) & !is.na(x$Prior_G3_MOverallLevel),
+                                    x$MOverallLevel - x$Prior_G3_MOverallLevel, NA)
+
+
+        x$change_g63_read_label <- ifelse(!is.na(x$change_g63_read),
+                                          ifelse(x$change_g63_read > 0 , "increase",
+                                                 ifelse(x$change_g63_read <0, "decrease", "same")
+                                                 ), NA
+        )
+        x$change_g63_write_label <- ifelse(!is.na(x$change_g63_write),
+                                          ifelse(x$change_g63_write > 0 , "increase",
+                                                 ifelse(x$change_g63_write <0, "decrease", "same")
+                                          ), NA
+        )
+        x$change_g63_math_label <- ifelse(!is.na(x$change_g63_math),
+                                          ifelse(x$change_g63_math > 0 , "increase",
+                                                 ifelse(x$change_g63_math <0, "decrease", "same")
+                                          ), NA
+        )
       }, "Check the type of recoding selected")
       )
     },
@@ -358,6 +381,21 @@ AchieveLabel <- function(x, grade, type){
                                                                  )
                                                    )
                                 )
+          x$change_g96_math <- ifelse(!is.na(x$OverallOutcomeLevel) & !is.na(x$Prior_G6_MOverallLevel),
+                                      x$OverallOutcomeLevel - x$Prior_G6_MOverallLevel, NA)
+          x$change_g93_math <- ifelse(!is.na(x$OverallOutcomeLevel) & !is.na(x$Prior_G3_MOverallLevel),
+                                      x$OverallOutcomeLevel - x$Prior_G3_MOverallLevel, NA)
+
+
+          x$change_g96_math_label <- ifelse(!is.na(x$change_g96_math),
+                                            ifelse(x$change_g96_math > 0 , "increase",
+                                                   ifelse(x$change_g96_math <0, "decrease", "same")
+                                            ), NA)
+          x$change_g93_math_label <- ifelse(!is.na(x$change_g93_math),
+                                            ifelse(x$change_g93_math > 0 , "increase",
+                                                   ifelse(x$change_g93_math <0, "decrease", "same")
+                                            ), NA)
+
           }, "Check the type of recoding selected"))},
       ifelse(grade == 10, {
         ifelse(type == "char", {
